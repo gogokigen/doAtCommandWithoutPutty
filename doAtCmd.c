@@ -146,29 +146,6 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-/*
-if ((argc - optind) != 3) {
-    usage(argv[0]);
-    return EXIT_FAILURE;
-}
-#define INPUT_FILE   argv[optind + 0]
-        atcmds = fopen(INPUT_FILE, "rb");
-        if (atcmds == NULL) {
-            fprintf(stderr, "fopen(%s) failed: %s\n", INPUT_FILE, strerror(errno));
-            return EXIT_FAILURE;
-        }
-
-#define OUTPUT_FILE  argv[optind + 2]
-
-        output = fopen(OUTPUT_FILE, "wb");
-        if (output == NULL) {
-            fprintf(stderr, "fopen(%s) failed: %s\n", OUTPUT_FILE, strerror(errno));
-            return EXIT_FAILURE;
-        }
-
-*/
-
-
     atcmds = stdin;
     output = stdout;
 
@@ -217,18 +194,9 @@ if ((argc - optind) != 3) {
         if(strlen(MODEM_DEVICE) > 1) break;
     }
 
-    printf("MODEM_DEVICE：%s\n", MODEM_DEVICE);
+    printf("Found MODEM_DEVICE：%s\n", MODEM_DEVICE);
+    printf("Wait your at cmd ...\n");
 
-//#define MODEM_DEVICE "/dev/smd7"
-
-
-    //modem = fopen(MODEM_DEVICE, "r+b");
-    //if (modem == NULL) {
-    //    fprintf(stderr, "fopen(%s) failed: %s\n", MODEM_DEVICE, strerror(errno));
-    //    return EXIT_FAILURE;
-    //}
-
-    printf("wait your at cmd ...\n");
     while ((line = fgets(buf, (int)sizeof(buf), atcmds)) != NULL) {
         if( 0 == strcmp(line, ":q\n") ){
             printf("leave ... huh?\n");
@@ -259,29 +227,13 @@ if ((argc - optind) != 3) {
             }
         } while (! is_final_result(line));
     }
-/*
-    if (strcmp(OUTPUT_FILE, "-") != 0) {
-        res = fclose(output);
-        if (res != 0) {
-            fprintf(stderr, "closing output failed: %s\n", strerror(errno));
-            return EXIT_FAILURE;
-        }
-    }
-*/
+
     res = fclose(modem);
     if (res != 0) {
         fprintf(stderr, "closing modem failed: %s\n", strerror(errno));
         return EXIT_FAILURE;
     }
-/*
-    if (strcmp(INPUT_FILE, "-") != 0) {
-        res = fclose(atcmds);
-        if (res != 0) {
-            fprintf(stderr, "closing input failed: %s\n", strerror(errno));
-            return EXIT_FAILURE;
-        }
-    }
-*/
+
     return EXIT_SUCCESS;
 }
 
