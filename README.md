@@ -1,4 +1,4 @@
-# zaAtCmdTool  
+# doAtCommandWithoutPutty  
 
 **If you want to use this tool:**  
 echo -e "AT+CFUN=?\r\n" > /dev/smd11  
